@@ -5,7 +5,7 @@ local z = 3
 for i = 1, z do
     local flip = false;
     for j = 1, y do
-        for k = 1, x do
+        for k = 1, x - 1 do
             turtle.dig()
             turtle.forward()
         end
@@ -15,9 +15,6 @@ for i = 1, z do
         else
             turtle.turnLeft()
         end
-
-        turtle.dig()
-        turtle.forward()
 
         if flip then
             turtle.turnRight()
