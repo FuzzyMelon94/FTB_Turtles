@@ -1,4 +1,4 @@
--- v0.1.5
+-- v0.1.6
 -- Default dig dimensions
 local xDist = 3
 local yDist = 3
@@ -29,7 +29,7 @@ function stripAndMove(amount)
             if turtle.detect() then
                 turtle.dig()
             end
-            move(1, "f")
+            move(1, "f", "y")
             digVertical()
         end
     end
@@ -53,27 +53,48 @@ function turnNextRow(rowNum)
 
     turn(isEven)
     turtle.dig()
-    turtle.forward()
+    move(1, "f", "x")
     turn(isEven)
 end
 
 -- Move forward a distance in a direction
-function move(amount, dir)
-    for y = 1, amount do
+function move(amount, dir, axis, returning)
+    local returning = returning or false
+    for i = 1, amount do
+        -- Perform movement in the correct direction
         if dir == "f" then
             turtle.forward()
-            yCurrent = yCurrent + 1
         elseif dir == "b" then
             turtle.back()
-            yCurrent = yCurrent - 1
         elseif dir == "u" then
             turtle.up()
-            zCurrent = zCurrent + 1
         elseif dir == "d" then
             turtle.down()
-            zCurrent = zCurrent - 1
         else
             print("Not sure which direction to move, staying here.")
+        end
+
+        -- Update tracking var
+        if axis == "x" then
+            if returning then
+                xCurrent = xCurrent - 1
+            else
+                xCurrent = xCurrent + 1
+            end
+        elseif axis == "y" then
+            if returning then
+                yCurrent = yCurrent - 1
+            else
+                yCurrent = yCurrent + 1
+            end
+        elseif axis == "z" then
+            if returning then
+                zCurrent = zCurrent - 1
+            else
+                zCurrent = zCurrent + 1
+            end
+        else
+            print("Not sure which axis to adjust.")
         end
     end
 end
@@ -82,14 +103,18 @@ end
 function toOrigin()
     local finalOdd = xCurrent % 2 == 1
 
+    -- Reset the x position
     turn(finalOdd)
-    move(xCurrent)
+    move(xCurrent, "f", "x", true)
     turn(finalOdd)
 
+    -- Reset the y position
     if finalOdd then
-        move(yCurrent, "u")
+        move(yCurrent, "f", "y", true)
     end
 
+    -- Reset the z position
+    move(zCurrent, "u", "z", true)
 end
 
 -- The main program
