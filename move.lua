@@ -1,4 +1,4 @@
--- v0.1.0
+-- v0.1.1
 -- Output file help
 local function printUsage()
     print("Usages:")
@@ -60,15 +60,15 @@ function move(amount, dir, axis, returning)
             end
         elseif axis == "y" then
             if returning then
-                pos.z = pos.z - 1
-            else
-                pos.z = pos.z + 1
-            end
-        elseif axis == "z" then
-            if returning then
                 pos.y = pos.y - 1
             else
                 pos.y = pos.y + 1
+            end
+        elseif axis == "z" then
+            if returning then
+                pos.z = pos.z - 1
+            else
+                pos.z = pos.z + 1
             end
         else
             print("Not sure which axis to adjust.")
@@ -77,4 +77,7 @@ function move(amount, dir, axis, returning)
 end
 
 -- Main
-move(args[1], args[2], args[3])
+move(args[3], "f", "z")
+turtle.turnLeft()
+move(args[1], "f", "x")
+move(args[2], "u", "y")
