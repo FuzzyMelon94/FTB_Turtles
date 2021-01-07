@@ -1,31 +1,48 @@
--- v0.1.1
-local x = 3
-local y = 3
-local z = 3
+-- v0.1.2
+local xDist = 3
+local yDist = 3
+local zDist = 3
 
-for i = 1, z do
-    local flip = false;
-    for j = 1, y do
-        for k = 1, x - 1 do
+-- Dig for x
+function stripAndMove(amount)
+    turtle.digUp()
+    turtle.digDown()
+
+    if amount >= 1 then
+        for x = 0, amount do
             turtle.dig()
             turtle.forward()
+            turtle.digUp()
+            turtle.digDown()
         end
-
-        if flip then
-            turtle.turnRight()
-        else
-            turtle.turnLeft()
-        end
-
-        if flip then
-            turtle.turnRight()
-        else
-            turtle.turnLeft()
-        end
-
-        flip = not flip
     end
-    turtle.digDown()
-    turtle.down()
-    flip = not flip
 end
+
+-- Turn based on falisty
+function turn(isLeft)
+    if isLeft then
+        turtle.turnLeft()
+    else
+        turtle.turnRight()
+    end
+end
+
+-- Turn around for the next row
+function turnNextRow(rowNum)
+    local isEven = false
+    if rowNum % 2 == 0 then
+        isEven = true
+    end
+
+    turn(isEven)
+    turtle.dig()
+    turtle.forward()
+    turn(isEven)
+    stripAndMove(0)
+end
+
+-- Main
+stripAndMove(3)
+turnNextRow(1)
+stripAndMove(3)
+turnNextRow(2)
