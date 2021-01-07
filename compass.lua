@@ -1,4 +1,4 @@
--- v0.1.1
+-- v0.1.2
 -- Output file help
 local function printUsage()
     print("Usages:")
@@ -11,7 +11,7 @@ if #args < 1 then
     printUsage()
     return
 end
-local facing = facingToInt(args[1])
+local facing = 1
 
 -- Rotate to a random facing
 function rotateRandom()
@@ -65,6 +65,7 @@ function facingToInt(s)
 end
 
 -- Main
+facing = facingToInt(args[1])
 print("Initial facing is " .. facingToString(facing))
 rotateRandom()
 print("Final facing is " .. facingToString(facing))
