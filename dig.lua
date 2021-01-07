@@ -1,7 +1,13 @@
--- v0.1.4
+-- v0.1.5
+-- Default dig dimensions
 local xDist = 3
 local yDist = 3
 local zDist = 3
+
+-- Current movement
+local xCurrent = 0
+local yCurrent = 0
+local zCurrent = 0
 
 -- Dig above and below
 function digVertical()
@@ -23,7 +29,7 @@ function stripAndMove(amount)
             if turtle.detect() then
                 turtle.dig()
             end
-            turtle.forward()
+            move(1, "f")
             digVertical()
         end
     end
@@ -51,24 +57,39 @@ function turnNextRow(rowNum)
     turn(isEven)
 end
 
--- Move forward a distance (y-direction)
-function move(amount)
-    for y = 1, yDist do
-        turtle.forward()
+-- Move forward a distance in a direction
+function move(amount, dir)
+    for y = 1, amount do
+        if dir == "f" then
+            turtle.forward()
+            yCurrent = yCurrent + 1
+        elseif dir == "b" then
+            turtle.back()
+            yCurrent = yCurrent - 1
+        elseif dir == "u" then
+            turtle.up()
+            zCurrent = zCurrent + 1
+        elseif dir == "d" then
+            turtle.down()
+            zCurrent = zCurrent - 1
+        else
+            print("Not sure which direction to move, staying here.")
+        end
     end
 end
 
 -- Return to the starting position
 function toOrigin()
-    local finalOdd = xDist % 2 == 1
+    local finalOdd = xCurrent % 2 == 1
 
     turn(finalOdd)
-    move(xDist)
+    move(xCurrent)
     turn(finalOdd)
 
     if finalOdd then
-        move(yDist)
+        move(yCurrent, "u")
     end
+
 end
 
 -- The main program
