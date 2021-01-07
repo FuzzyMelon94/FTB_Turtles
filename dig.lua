@@ -1,4 +1,4 @@
--- v0.1.7
+-- v0.1.8
 -- Default dig dimensions
 local xDist = 3
 local yDist = 3
@@ -60,6 +60,7 @@ end
 -- Move forward a distance in a direction
 function move(amount, dir, axis, returning)
     local returning = returning or false
+    local zFlipped = zCurrent % 2 == 0
     for i = 1, amount do
         -- Perform movement in the correct direction
         if dir == "f" then
@@ -76,19 +77,19 @@ function move(amount, dir, axis, returning)
 
         -- Update tracking var
         if axis == "x" then
-            if returning then
+            if returning and zFlipped then
                 xCurrent = xCurrent - 1
             else
                 xCurrent = xCurrent + 1
             end
         elseif axis == "y" then
-            if returning then
+            if returning and zFlipped then
                 yCurrent = yCurrent - 1
             else
                 yCurrent = yCurrent + 1
             end
         elseif axis == "z" then
-            if returning then
+            if returning and zFlipped then
                 zCurrent = zCurrent - 1
             else
                 zCurrent = zCurrent + 1
@@ -131,7 +132,7 @@ function main()
         turtle.turnLeft()
         turtle.turnLeft()
     end
-    -- toOrigin()
+    toOrigin()
 end
 
 main()
