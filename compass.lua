@@ -1,8 +1,8 @@
--- v0.1.0
+-- v0.1.1
 -- Output file help
 local function printUsage()
     print("Usages:")
-    print("rotate <current facing>")
+    print("rotate <north|east|south|west>")
 end
 
 -- Check user inputs
@@ -11,7 +11,7 @@ if #args < 1 then
     printUsage()
     return
 end
-local facing = 1
+local facing = facingToInt(args[1])
 
 -- Rotate to a random facing
 function rotateRandom()
@@ -45,6 +45,22 @@ function facingToString(f)
         return "West"
     else
         return "Unknown"
+    end
+end
+
+-- Convert a string facing to an integer
+function facingToInt(s)
+    ls = string.lower(s)
+    if ls == "north" or ls == "n" then
+        return 1
+    elseif ls == "east" or ls == "e" then
+        return 2
+    elseif ls == "south" or ls == "s" then
+        return 3
+    elseif ls == "west" or ls == "w" then
+        return 4
+    else
+        return 1
     end
 end
 
