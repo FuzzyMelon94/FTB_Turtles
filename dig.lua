@@ -1,4 +1,4 @@
--- v0.1.8
+-- v0.1.9
 -- Default dig dimensions
 local xDist = 3
 local yDist = 3
@@ -60,7 +60,7 @@ end
 -- Move forward a distance in a direction
 function move(amount, dir, axis, returning)
     local returning = returning or false
-    local zFlipped = zCurrent % 2 == 0
+    local zFlipped = zCurrent % 2 == 1
     for i = 1, amount do
         -- Perform movement in the correct direction
         if dir == "f" then
@@ -77,19 +77,19 @@ function move(amount, dir, axis, returning)
 
         -- Update tracking var
         if axis == "x" then
-            if returning and zFlipped then
+            if returning or zFlipped then
                 xCurrent = xCurrent - 1
             else
                 xCurrent = xCurrent + 1
             end
         elseif axis == "y" then
-            if returning and zFlipped then
+            if returning or zFlipped then
                 yCurrent = yCurrent - 1
             else
                 yCurrent = yCurrent + 1
             end
         elseif axis == "z" then
-            if returning and zFlipped then
+            if returning then
                 zCurrent = zCurrent - 1
             else
                 zCurrent = zCurrent + 1
@@ -103,6 +103,10 @@ end
 -- Return to the starting position
 function toOrigin()
     local finalOdd = xCurrent % 2 == 0
+
+    print("X " .. xCurrent)
+    print("Y " .. yCurrent)
+    print("Z " .. zCurrent)
 
     -- Reset the x position
     turn(finalOdd)
