@@ -129,8 +129,11 @@ function main()
             end
         end
         move(1, "d", "z")
-        turtle.turnLeft()
-        turtle.turnLeft()
+
+        if z ~= zDist then
+            turtle.turnLeft()
+            turtle.turnLeft()
+        end
     end
     toOrigin()
 end
