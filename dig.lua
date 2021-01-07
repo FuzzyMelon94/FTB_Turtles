@@ -1,4 +1,4 @@
--- v0.1.6
+-- v0.1.7
 -- Default dig dimensions
 local xDist = 3
 local yDist = 3
@@ -101,7 +101,7 @@ end
 
 -- Return to the starting position
 function toOrigin()
-    local finalOdd = xCurrent % 2 == 1
+    local finalOdd = xCurrent % 2 == 0
 
     -- Reset the x position
     turn(finalOdd)
@@ -119,14 +119,19 @@ end
 
 -- The main program
 function main()
-    for x = 1, xDist do
-        stripAndMove(yDist)
+    for z = 1, zDist do
+        for x = 1, xDist do
+            stripAndMove(yDist)
 
-        if x ~= xDist then
-            turnNextRow(x)
+            if x ~= xDist then
+                turnNextRow(x)
+            end
         end
+        move(1, "d", "z")
+        turtle.turnLeft()
+        turtle.turnLeft()
     end
-    toOrigin()
+    -- toOrigin()
 end
 
 main()
