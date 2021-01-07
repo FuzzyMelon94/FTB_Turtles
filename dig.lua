@@ -1,15 +1,15 @@
--- v0.1.2
+-- v0.1.3
 local xDist = 3
 local yDist = 3
 local zDist = 3
 
--- Dig for x
+-- Dig forward (y)
 function stripAndMove(amount)
     turtle.digUp()
     turtle.digDown()
 
     if amount >= 1 then
-        for x = 0, amount do
+        for y = 1, amount - 1 do
             turtle.dig()
             turtle.forward()
             turtle.digUp()
@@ -38,11 +38,30 @@ function turnNextRow(rowNum)
     turtle.dig()
     turtle.forward()
     turn(isEven)
-    stripAndMove(0)
 end
 
--- Main
-stripAndMove(3)
-turnNextRow(1)
-stripAndMove(3)
-turnNextRow(2)
+-- Return to the starting position
+function toOrigin()
+    local finalEven = xDist % 2 == 0
+
+    turn(not finalEven)
+
+    for y = 1, yDist do
+        turtle.forward()
+    end
+
+    turn(finalEven)
+end
+
+-- The main program
+function main()
+    for x = 1, xDist do
+        stripAndMove(yDist)
+
+        if x ~= xDist then
+            turnNextRow(x)
+        end
+    end
+end
+
+main()
