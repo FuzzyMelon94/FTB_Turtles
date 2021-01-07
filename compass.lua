@@ -2,7 +2,7 @@
 -- Output file help
 local function printUsage()
     print("Usages:")
-    print("rotate <north|east|south|west>")
+    print("compass <north|east|south|west>")
 end
 
 -- Check user inputs
