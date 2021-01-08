@@ -1,4 +1,4 @@
--- v0.1.2
+-- v0.1.3
 -- Console settings
 local termHeight = 13
 local termWidth = 40
@@ -150,41 +150,50 @@ function writeDefaultData()
 end
 
 -- Main program
-term.clear()
-writeWindow()
-writeDefaultData()
-sleep(2)
+function main()
+    term.clear()
+    writeWindow()
+    writeDefaultData()
+    sleep(2)
 
-updateFieldValue(status, "Busy")
-updateFieldValue(taskValue, "Returning to base")
-local pos = {
-    x = 100,
-    y = -300,
-    z = 20
-}
-for i = 1, 20 do
-    updateFieldValue(fuel, 100 - i)
-    updateFieldValue(inventory, 50 + i)
+    updateFieldValue(status, "Busy")
+    updateFieldValue(taskValue, "Returning to base")
+    local pos = {
+        x = 100,
+        y = -300,
+        z = 20
+    }
+    for i = 1, 20 do
+        updateFieldValue(fuel, 100 - i)
+        updateFieldValue(inventory, 50 + i)
 
-    local moveDirRand = math.random(1, 3)
-    local moveAmount = 1
-    if math.random(0, 1) == 1 then
-        moveAmount = -1
+        local moveDirRand = math.random(1, 3)
+        local moveAmount = 1
+        if math.random(0, 1) == 1 then
+            moveAmount = -1
+        end
+
+        if moveDirRand == 1 then
+            pos.x = pos.x + moveAmount
+        elseif moveDirRand == 2 then
+            pos.y = pos.y + moveAmount
+        else
+            pos.z = pos.z + moveAmount
+        end
+
+        updateFieldValue(position, pos.x .. ", " .. pos.y .. ", " .. pos.z)
+        sleep(writeDelay)
     end
 
-    if moveDirRand == 1 then
-        pos.x = pos.x + moveAmount
-    elseif moveDirRand == 2 then
-        pos.y = pos.y + moveAmount
-    else
-        pos.z = pos.z + moveAmount
-    end
-
-    updateFieldValue(position, pos.x .. ", " .. pos.y .. ", " .. pos.z)
-    sleep(writeDelay)
+    updateFieldValue(status, "Idle")
+    updateFieldValue(taskValue, "Resting at base")
 end
 
-updateFieldValue(status, "Idle")
-updateFieldValue(taskValue, "Resting at base")
+-- Breakout program
+function exitProgram()
+    repeat
+        local ev, key = os.pullEvent('key')
+    until key == keys.backspace
+end
 
-print()
+parallel.waitForAny(main, exitProgram)
