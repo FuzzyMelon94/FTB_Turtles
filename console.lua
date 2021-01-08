@@ -1,4 +1,4 @@
--- v0.1.3
+-- v0.1.4
 -- Console settings
 local termHeight = 13
 local termWidth = 40
@@ -14,6 +14,7 @@ local title = "Mini0n OS"
 local version = "v0.1"
 local fullTitle = "||         Mini0n OS  [v0.1]         ||"
 local writeDelay = 0.2
+local updateFreq = 0.5
 
 -- Bot stats
 local name = {
@@ -140,33 +141,37 @@ end
 
 -- Write default data
 function writeDefaultData()
-    writeField(name, "Jack")
-    writeField(fuel, 100)
-    writeField(status, "Idle")
-    writeField(inventory, 50)
-    writeField(position, "100, -300, 20")
+    writeField(name, "")
+    writeField(fuel, 0)
+    writeField(status, "Booting")
+    writeField(inventory, 0)
+    writeField(position, "0, 0, 0")
     writeField(taskTitle, "")
-    writeField(taskValue, "Taking a break")
+    writeField(taskValue, "Rise and shine")
 end
 
--- Main program
-function main()
-    term.clear()
-    writeWindow()
-    writeDefaultData()
-    sleep(2)
+function testFields()
+    local names = {"Bob", "Carl", "Chris", "Dave", "Donnie", "Eric", "Henry", "Jerry", "John", "Kevin", "Ken", "Lance",
+                   "Mark", "Mel", "Mike", "Norbert", "Phil", "Stuart", "Tim", "Tom", "Tony"}
+    local statuses = {"Busy", "Idle", "Waiting"}
+    local tasks = {"Digging a real big hole", "Choppin' trees", "Tilling soil", "Planting seeds - Wheat",
+                   "Planting seeds - Rice", "Planting seeds - Canola", "Returning to base", "Emptying inventory",
+                   "Refuelling", "Waiting for a job", "Not really sure, lol"}
 
-    updateFieldValue(status, "Busy")
-    updateFieldValue(taskValue, "Returning to base")
+    -- Update field with random values
+    updateFieldValue(name, names[math.random(1, #names)])
+    updateFieldValue(status, statuses[math.random(1, #statuses)])
+    updateFieldValue(fuel, math.random(1, #statuses))
+    updateFieldValue(inventory, math.random(1, #statuses))
+    updateFieldValue(taskValue, tasks[math.random(1, #tasks)])
+
+    -- Random positions
     local pos = {
         x = 100,
         y = -300,
         z = 20
     }
     for i = 1, 20 do
-        updateFieldValue(fuel, 100 - i)
-        updateFieldValue(inventory, 50 + i)
-
         local moveDirRand = math.random(1, 3)
         local moveAmount = 1
         if math.random(0, 1) == 1 then
@@ -182,11 +187,19 @@ function main()
         end
 
         updateFieldValue(position, pos.x .. ", " .. pos.y .. ", " .. pos.z)
-        sleep(writeDelay)
     end
+end
 
-    updateFieldValue(status, "Idle")
-    updateFieldValue(taskValue, "Resting at base")
+-- Main program
+function main()
+    term.clear()
+    writeWindow()
+    writeDefaultData()
+
+    while true do
+        testFields()
+        sleep(updateFreq)
+    end
 end
 
 -- Breakout program
