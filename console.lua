@@ -1,4 +1,4 @@
--- v0.1.1
+-- v0.1.2
 -- Console settings
 local termHeight = 13
 local termWidth = 40
@@ -20,49 +20,56 @@ local name = {
     prefix = "",
     suffix = "",
     screenX = 4,
-    screenY = 4
+    screenY = 4,
+    maxLength = 12
 }
 local fuel = {
     title = "Fuel: ",
     prefix = "",
     suffix = "",
     screenX = 4,
-    screenY = 5
+    screenY = 5,
+    maxLength = 6
 }
 local status = {
     title = "",
     prefix = "(",
     suffix = ")",
     screenX = 27,
-    screenY = 4
+    screenY = 4,
+    maxLength = 8
 }
 local inventory = {
     title = "Inv: ",
     prefix = "",
     suffix = "%",
     screenX = 27,
-    screenY = 5
+    screenY = 5,
+    maxLength = 4
 }
 local position = {
-    title = "Pos: ",
+    title = "Pos:  ",
     prefix = "",
     suffix = "",
     screenX = 4,
-    screenY = 6
+    screenY = 6,
+    maxLength = 16
 }
 local taskTitle = {
     title = "Current Task:",
     prefix = "",
     suffix = "",
     screenX = 4,
-    screenY = 8
+    screenY = 8,
+    maxLength = 13
 }
 local taskValue = {
     title = "",
     prefix = "",
     suffix = "",
     screenX = 6,
-    screenY = 9
+    screenY = 9,
+    maxLength = 30
 }
 
 -- Writes a line to the console - position can be specified
@@ -112,8 +119,18 @@ end
 
 -- Update a field with a new value
 function updateFieldValue(field, value)
-    term.setCursorPos(field.screenX + #field.prefix + #field.title, field.screenY)
-    write(tostring(value))
+    local cursorStart = field.screenX + #field.prefix + #field.title
+
+    -- Write the new value
+    term.setCursorPos(cursorStart, field.screenY)
+    write(tostring(value) .. field.suffix)
+
+    -- Clear the rest of the line
+    for i = #value + #field.suffix, field.maxLength do
+        write(" ")
+    end
+
+    -- Reset the cursor
     term.setCursorPos(1, 13)
 end
 
