@@ -1,4 +1,4 @@
--- v0.1.4
+-- v0.1.5
 -- Console settings
 local termHeight = 13
 local termWidth = 40
@@ -103,6 +103,9 @@ function writeWindow()
         elseif i == 7 then -- Ln7 - data separator
             term.setCursorPos(1, i)
             write(separator)
+        elseif i == termHeight then
+            term.setCursorPos(1, i)
+            write(bottom)
         else -- edges for all other lines
             term.setCursorPos(1, i)
             write(edge)
@@ -210,3 +213,4 @@ function exitProgram()
 end
 
 parallel.waitForAny(main, exitProgram)
+term.setCursorPos(3, 12)
