@@ -10,8 +10,9 @@ local bottom = "======================================="
 local edge = "||"
 
 -- Program stats
-local title = "Tom-Bot Controller [v0.1]"
+local title = "Mini0n OS"
 local version = "v0.1"
+local fullTitle = "||         Mini0n OS  [v0.1]         ||"
 local writeDelay = 0.2
 
 -- Bot stats
@@ -90,13 +91,16 @@ end
 function writeWindow()
     for i = 1, termHeight do
         if i == 1 then -- Ln1 - top border
-            term.setCursorPos(1, 1)
+            term.setCursorPos(1, i)
             write(top)
+        elseif i == 2 then -- Ln2 - title
+            term.setCursorPos(1, i)
+            write(fullTitle)
         elseif i == 3 then -- Ln3 - title separator
-            term.setCursorPos(1, 3)
+            term.setCursorPos(1, i)
             write(separator)
         elseif i == 7 then -- Ln7 - data separator
-            term.setCursorPos(1, 7)
+            term.setCursorPos(1, i)
             write(separator)
         else -- edges for all other lines
             term.setCursorPos(1, i)
@@ -120,13 +124,13 @@ end
 -- Update a field with a new value
 function updateFieldValue(field, value)
     local cursorStart = field.screenX + #field.prefix + #field.title
-
+    local value = tostring(value) .. field.suffix
     -- Write the new value
     term.setCursorPos(cursorStart, field.screenY)
-    write(tostring(value) .. field.suffix)
+    write(value)
 
     -- Clear the rest of the line
-    for i = #value + #field.suffix, field.maxLength do
+    for i = #value, field.maxLength do
         write(" ")
     end
 
