@@ -1,4 +1,4 @@
--- v0.1.0
+-- v0.1.1
 -- Console settings
 local termHeight = 13
 local termWidth = 40
@@ -41,10 +41,10 @@ local inventory = {
     prefix = "",
     suffix = "%",
     screenX = 27,
-    screenY = 4
+    screenY = 5
 }
 local position = {
-    title = "Position",
+    title = "Pos: ",
     prefix = "",
     suffix = "",
     screenX = 4,
@@ -92,9 +92,9 @@ function writeWindow()
             term.setCursorPos(1, 7)
             write(separator)
         else -- edges for all other lines
-            term.setCursorPos(1, 2)
+            term.setCursorPos(1, i)
             write(edge)
-            term.setCursorPos(1, termWidth - #edge)
+            term.setCursorPos(termWidth - #edge, i)
             write(edge)
         end
         sleep(writeDelay)
@@ -160,6 +160,7 @@ for i = 1, 20 do
     end
 
     updateFieldValue(position, pos.x .. ", " .. pos.y .. ", " .. pos.z)
+    sleep(writeDelay)
 end
 
 updateFieldValue(status, "Idle")
