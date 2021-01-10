@@ -1,4 +1,4 @@
--- v0.1.0
+-- v0.1.1
 local monitor = {}
 
 -- Monitor settings
@@ -8,7 +8,7 @@ local midX = monWidth / 2
 local midY = monHeight / 2
 
 -- Prepares the monitor for use
-function setupMonitor()
+function setup()
     mon.clear()
     mon.setTextColor(colors.yellow)
     mon.setBackgroundColor(colors.black)
@@ -97,7 +97,7 @@ function movingText(s, x, y, distance)
 end
 
 -- Show a blinking cursor for input
-function displayBlinking(c, col, row, duration)
+function caret(c, col, row, duration)
     local c = c or "_"
     local col = col or 1
     local row = row or 1
