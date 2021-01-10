@@ -1,4 +1,4 @@
--- v0.1.5
+-- v0.1.6
 -- Monitor settings
 local mon = peripheral.wrap("top")
 local monWidth, monHeight = mon.getSize()
@@ -10,7 +10,7 @@ local spinnerSpeed = 0.1
 local cursorBlinkRate = 0.5
 
 -- Boot text
-local title = "=== Mini0n OS [v0.1.5] ==="
+local title = "=== Mini0n OS [v0.1.6] ==="
 local state = "Booting..."
 
 -- Prepares the monitor for use
@@ -29,7 +29,7 @@ function writeLine(s, col, row, clear)
     local clear = clear or false
 
     for i = 1, #s do
-        mon.setCursorPos(col + i, row)
+        mon.setCursorPos(col, row)
         mon.write(s:sub(i, i))
         sleep(writeSpeed)
     end
@@ -111,8 +111,9 @@ writeLine(state, midX - (#state / 2), midY, true)
 sleep(0.5)
 displaySpinner(midX, midY + 1, bootTime)
 sleep(0.5)
-print("░▒▓  ╣║╗╝")
-sleep(0.5)
+mon.setCursorPos(1, monHeight)
+print("Testing chars: ░▒▓  ╣║╗╝")
+sleep(5)
 
 -- Show terminal
 mon.clear()
