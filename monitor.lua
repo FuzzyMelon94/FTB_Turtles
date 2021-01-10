@@ -1,4 +1,4 @@
--- v0.1.2
+-- v0.1.3
 local monitor = {}
 
 -- Prepares the monitor for use
@@ -66,7 +66,7 @@ function text(mon, s, x, y, speed, clear)
 end
 
 -- Text that moves up the screen
-function movingText(mon, s, x, y, distance)
+function movingText(mon, s, x, y, distance, speed)
     local y = y
     local isUp = distance > 0
     local width, height = mon.getSize()
