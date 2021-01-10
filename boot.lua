@@ -111,9 +111,6 @@ writeLine(state, midX - (#state / 2), midY, true)
 sleep(0.5)
 displaySpinner(midX, midY + 1, bootTime)
 sleep(0.5)
-mon.setCursorPos(1, monHeight)
-print("Testing chars: ░▒▓  ╣║╗╝")
-sleep(5)
 
 -- Show terminal
 mon.clear()
