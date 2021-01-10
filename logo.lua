@@ -6,6 +6,6 @@ local logo = [[___  ____       _ _____         _____ _____
 | |  | | | | | | \ |_/ / | | | \ \_/ /\__/ /
 \_|  |_/_|_| |_|_|\___/|_| |_|  \___/\____/]]
 
-local function get()
+function get()
     return logo
 end
