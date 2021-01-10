@@ -4,10 +4,10 @@ os.loadAPI("monitor")
 os.loadAPI("logo")
 
 -- Monitor settings
-local mon = peripheral.wrap("top")
-local monWidth, monHeight = mon.getSize()
-local midX = monWidth / 2
-local midY = monHeight / 2
+-- local mon = peripheral.wrap("top")
+-- local monWidth, monHeight = mon.getSize()
+-- local midX = monWidth / 2
+-- local midY = monHeight / 2
 local bootTime = 30
 local writeSpeed = 0.15
 local spinnerSpeed = 0.05
@@ -108,21 +108,20 @@ local state = "Booting..."
 -- end
 
 -- Main program
-setupMonitor()
+monitor.setup()
 sleep(2)
 
 -- Display boot sequence
-writeLine(title, midX - (#title / 2), midY - 2, true)
+monitor.text(title, midX - (#title / 2), midY - 2, true)
 sleep(0.5)
-writeLine(state, midX - (#state / 2), midY, true)
+monitor.text(state, midX - (#state / 2), midY, true)
 sleep(0.5)
-displaySpinner(midX, midY + 2, bootTime)
+monitor.spinner(midX, midY + 2, bootTime)
 
 -- Show terminal
 mon.clear()
-moveLines(title, midX - (#title / 2), midY, midY)
-writeLine(title, midX - (#title / 2), 1, true)
-writeLine(">", 1, monHeight, true)
+monitor.movingText(title, midX - (#title / 2), midY, midY)
+monitor.text(title, midX - (#title / 2), 1, true)
+monitor.text(">", 1, monHeight, true)
 sleep(0.5)
-displayBlinking("_", 2, monHeight, 30)
-
+monitor.caret("_", 2, monHeight, 30)
