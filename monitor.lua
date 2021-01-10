@@ -1,14 +1,8 @@
--- v0.1.1
+-- v0.1.2
 local monitor = {}
 
--- Monitor settings
-local mon = peripheral.wrap("top")
-local monWidth, monHeight = mon.getSize()
-local midX = monWidth / 2
-local midY = monHeight / 2
-
 -- Prepares the monitor for use
-function setup()
+function setup(mon)
     mon.clear()
     mon.setTextColor(colors.yellow)
     mon.setBackgroundColor(colors.black)
@@ -17,7 +11,7 @@ function setup()
 end
 
 -- Display a spinner at a position for a duration
-function spinner(x, y, speed, duration)
+function spinner(mon, x, y, speed, duration)
     local spinA = "-"
     local spinB = "\\"
     local spinC = "|"
@@ -45,16 +39,17 @@ function spinner(x, y, speed, duration)
 end
 
 -- Display a progress bar at a position with length and style
-function progressBar()
+function progressBar(mon)
     print("To be implemented...")
 end
 
 -- Display a line of text with optional character delay and position
-function text(s, x, y, speed, clear)
+function text(mon, s, x, y, speed, clear)
     local x = x or 1
     local y = y or 1
     local speed = speed or 0
     local clear = clear or false
+    local width, height = mon.getSize()
 
     for i = 0, #s do
         mon.setCursorPos(x + i, y)
@@ -63,7 +58,7 @@ function text(s, x, y, speed, clear)
     end
 
     if clear then
-        for i = x + #s + 1, monWidth do
+        for i = x + #s + 1, width do
             mon.setCursorPos(i, y)
             mon.write(" ")
         end
@@ -71,9 +66,10 @@ function text(s, x, y, speed, clear)
 end
 
 -- Text that moves up the screen
-function movingText(s, x, y, distance)
+function movingText(mon, s, x, y, distance)
     local y = y
     local isUp = distance > 0
+    local width, height = mon.getSize()
 
     text(s, x, y, true)
     for i = 1, distance do
@@ -84,7 +80,7 @@ function movingText(s, x, y, distance)
         end
 
         if clear then
-            for i = x + #s + 1, monWidth do
+            for i = x + #s + 1, width do
                 mon.setCursorPos(i, y)
                 mon.write(" ")
             end
@@ -97,21 +93,21 @@ function movingText(s, x, y, distance)
 end
 
 -- Show a blinking cursor for input
-function caret(c, col, row, duration)
-    local c = c or "_"
-    local col = col or 1
-    local row = row or 1
+function caret(mon, symbol, x, y, blinkRate, duration)
+    local symbol = symbol or "_"
+    local x = x or 1
+    local y = y or 1
     local duration = duration or 60
     local showing = false
 
     for i = 0, duration do
-        mon.setCursorPos(col, row)
+        mon.setCursorPos(x, y)
         if i % 2 == 0 then
-            mon.write(c)
+            mon.write(symbol)
         else
             mon.write(" ")
         end
-        sleep(cursorBlinkRate)
+        sleep(blinkRate)
     end
 end
 
