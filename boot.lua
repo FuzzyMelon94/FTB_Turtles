@@ -1,16 +1,16 @@
--- v0.1.6
+-- v0.1.7
 -- Monitor settings
 local mon = peripheral.wrap("top")
 local monWidth, monHeight = mon.getSize()
 local midX = monWidth / 2
 local midY = monHeight / 2
 local bootTime = 30
-local writeSpeed = 0.2
-local spinnerSpeed = 0.1
+local writeSpeed = 0.15
+local spinnerSpeed = 0.05
 local cursorBlinkRate = 0.5
 
 -- Boot text
-local title = "=== Mini0n OS [v0.1.6] ==="
+local title = "=== Mini0n OS [v0.1.7] ==="
 local state = "Booting..."
 
 -- Prepares the monitor for use
@@ -28,8 +28,8 @@ function writeLine(s, col, row, clear)
     local row = row or 1
     local clear = clear or false
 
-    for i = 1, #s do
-        mon.setCursorPos(col, row)
+    for i = 0, #s do
+        mon.setCursorPos(col + i, row)
         mon.write(s:sub(i, i))
         sleep(writeSpeed)
     end
@@ -79,6 +79,9 @@ function displaySpinner(col, row, duration)
 
         sleep(spinnerSpeed)
     end
+
+    mon.setCursorPos(col, row)
+    mon.write(spinA)
 end
 
 -- ! Display blinking caret - interrupt to be added
@@ -105,17 +108,15 @@ setupMonitor()
 sleep(2)
 
 -- Display boot sequence
-writeLine(title, midX - (#title / 2), midY - 1, true)
+writeLine(title, midX - (#title / 2), midY - 2, true)
 sleep(0.5)
 writeLine(state, midX - (#state / 2), midY, true)
 sleep(0.5)
-displaySpinner(midX, midY + 1, bootTime)
-sleep(0.5)
+displaySpinner(midX, midY + 2, bootTime)
 
 -- Show terminal
 mon.clear()
-
-mon.setCursorPos(1, monHeight)
+moveLines(title, midX - (#title / 2), midY, midY)
 writeLine(title, midX - (#title / 2), 1, true)
 writeLine(">", 1, monHeight, true)
 sleep(0.5)
