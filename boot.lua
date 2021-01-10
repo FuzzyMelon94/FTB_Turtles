@@ -1,13 +1,14 @@
--- v0.1.3
+-- v0.1.4
 -- Monitor settings
 local mon = peripheral.wrap("top")
 local monWidth, monHeight = mon.getSize()
 local midX = monWidth / 2
 local midY = monHeight / 2
 local bootTime = 30
+local refreshRate = 0.2
 
 -- Boot text
-local title = "=== Mini0n OS [v0.1.3] ==="
+local title = "=== Mini0n OS [v0.1.4] ==="
 local state = "Booting..."
 
 -- Prepares the monitor for use
@@ -60,6 +61,8 @@ function displaySpinner(col, row, duration)
         else
             mon.write(spinD)
         end
+
+        sleep(refreshRate)
     end
 end
 
@@ -74,11 +77,11 @@ function displayBlinking(c, col, row, duration)
     for i = 0, duration do
         mon.setCursorPos(col, row)
         if i % 2 == 0 then
-            write(c)
+            mon.write(c)
         else
-            write(" ")
+            mon.write(" ")
         end
-        sleep(0.5)
+        sleep(refreshRate)
     end
 end
 
@@ -91,7 +94,7 @@ writeLine(title, midX - (#title / 2), midY - 1, 0.1, true)
 sleep(0.5)
 writeLine(state, midX - (#state / 2), midY, 0.1, true)
 sleep(0.5)
-displaySpinner(midX - (#state / 2), midY + 1, bootTime)
+displaySpinner(midX, midY + 1, bootTime)
 
 -- Show terminal
 mon.clear()
@@ -99,4 +102,4 @@ mon.clear()
 mon.setCursorPos(1, monHeight)
 writeLine(title, midX - (#title / 2), 1, 0.1, true)
 writeLine("> ", 1, monHeight, 0, true)
-displayBlinking()
+displayBlinking("_", 2, monHeight, 30)
