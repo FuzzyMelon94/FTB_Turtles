@@ -1,14 +1,16 @@
--- v0.1.4
+-- v0.1.5
 -- Monitor settings
 local mon = peripheral.wrap("top")
 local monWidth, monHeight = mon.getSize()
 local midX = monWidth / 2
 local midY = monHeight / 2
 local bootTime = 30
-local refreshRate = 0.2
+local writeSpeed = 0.2
+local spinnerSpeed = 0.1
+local cursorBlinkRate = 0.5
 
 -- Boot text
-local title = "=== Mini0n OS [v0.1.4] ==="
+local title = "=== Mini0n OS [v0.1.5] ==="
 local state = "Booting..."
 
 -- Prepares the monitor for use
@@ -21,16 +23,15 @@ function setupMonitor()
 end
 
 -- Write a line at a position, with character delay and clearing if required
-function writeLine(s, col, row, speed, clear)
+function writeLine(s, col, row, clear)
     local col = col or 1
     local row = row or 1
-    local speed = speed or 0
     local clear = clear or false
 
     for i = 1, #s do
         mon.setCursorPos(col + i, row)
         mon.write(s:sub(i, i))
-        sleep(speed)
+        sleep(writeSpeed)
     end
 
     if clear then
@@ -39,6 +40,20 @@ function writeLine(s, col, row, speed, clear)
             mon.write(" ")
         end
     end
+end
+
+-- Moves a line up or down the monitor
+function moveLines(s, col, rowStart, distance)
+    local rowStart = rowStart or 1
+    local distance = 5
+    local isUp = distance < 0
+
+    writeLine(s, col, rowStart, true)
+    for i = 1, distance do
+        writeLine(s, col, rowStart + i, true)
+        writeLine(" ", col, rowStart + i - 1, true)
+    end
+    writeLine(" ", col, rowStart + distance - 1, true)
 end
 
 -- Display a spinner at a position for a duration
@@ -62,7 +77,7 @@ function displaySpinner(col, row, duration)
             mon.write(spinD)
         end
 
-        sleep(refreshRate)
+        sleep(spinnerSpeed)
     end
 end
 
@@ -81,7 +96,7 @@ function displayBlinking(c, col, row, duration)
         else
             mon.write(" ")
         end
-        sleep(refreshRate)
+        sleep(cursorBlinkRate)
     end
 end
 
@@ -90,16 +105,20 @@ setupMonitor()
 sleep(2)
 
 -- Display boot sequence
-writeLine(title, midX - (#title / 2), midY - 1, 0.1, true)
+writeLine(title, midX - (#title / 2), midY - 1, true)
 sleep(0.5)
-writeLine(state, midX - (#state / 2), midY, 0.1, true)
+writeLine(state, midX - (#state / 2), midY, true)
 sleep(0.5)
 displaySpinner(midX, midY + 1, bootTime)
+sleep(0.5)
+print("░▒▓  ╣║╗╝")
+sleep(0.5)
 
 -- Show terminal
 mon.clear()
 
 mon.setCursorPos(1, monHeight)
-writeLine(title, midX - (#title / 2), 1, 0.1, true)
-writeLine("> ", 1, monHeight, 0, true)
+writeLine(title, midX - (#title / 2), 1, true)
+writeLine(">", 1, monHeight, true)
+sleep(0.5)
 displayBlinking("_", 2, monHeight, 30)
