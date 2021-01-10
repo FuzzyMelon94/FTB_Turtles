@@ -1,4 +1,5 @@
-# My snippets for ComputerCraft Turtles in Feed The Beast Revelation.
+# Feed The Beast - ComputerCraft Turtles
+This repo contains my snippets of code to play with turtles and computers in FTB Revelation 3.4.0.
 
 To download these, first download my GitHub downloader from Pastebin:
 > pastebin get H9K2PzNE github
