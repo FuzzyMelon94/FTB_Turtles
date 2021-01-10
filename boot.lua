@@ -1,4 +1,4 @@
--- v0.1.9
+-- v0.1.10
 -- Load required files
 os.loadAPI("monitor")
 os.loadAPI("logo")
@@ -9,9 +9,9 @@ local monWidth, monHeight = mon.getSize()
 local midX = monWidth / 2
 local midY = monHeight / 2
 local bootTime = 30
-local writeSpeed = 0.15
-local spinnerSpeed = 0.05
-local cursorBlinkRate = 0.5
+local writeSpeed = 0.1
+local spinnerSpeed = 0.1
+local cursorBlinkRate = 0.4
 
 -- Boot text
 local title = "=== Mini0n OS [v0.1.7] ==="
@@ -112,16 +112,16 @@ monitor.setup(mon)
 sleep(2)
 
 -- Display boot sequence
-monitor.text(mon, title, midX - (#title / 2), midY - 2, true)
+monitor.text(mon, title, midX - (#title / 2), midY - 2, writeSpeed, true)
 sleep(0.5)
-monitor.text(mon, state, midX - (#state / 2), midY, true)
+monitor.text(mon, state, midX - (#state / 2), midY, writeSpeed, true)
 sleep(0.5)
-monitor.spinner(mon, midX, midY + 2, bootTime)
+monitor.spinner(mon, midX, midY + 2, spinnerSpeed, bootTime)
 
 -- Show terminal
 mon.clear()
-monitor.movingText(mon, title, midX - (#title / 2), midY, midY)
-monitor.text(mon, title, midX - (#title / 2), 1, true)
-monitor.text(mon, ">", 1, monHeight, true)
+monitor.movingText(mon, title, midX - (#title / 2), midY, midY, writeSpeed)
+monitor.text(mon, title, midX - (#title / 2), 1, writeSpeed, true)
+monitor.text(mon, ">", 1, monHeight, writeSpeed, true)
 sleep(0.5)
-monitor.caret(mon, "_", 2, monHeight, 30)
+monitor.caret(mon, "_", 2, monHeight, cursorBlinkRate, 30)
