@@ -1,4 +1,4 @@
--- v0.1.11
+-- v0.1.12
 -- Load required files
 os.loadAPI("monitor")
 os.loadAPI("logo")
@@ -22,7 +22,7 @@ monitor.setup(mon)
 sleep(2)
 
 -- Display boot sequence
-monitor.text(mon, title, midX - (#title / 2), midY - 5, writeSpeed, true)
+monitor.text(mon, logo.get(), midX - 22, midY - 5, writeSpeed / 5, true)
 sleep(0.5)
 monitor.text(mon, state, midX - (#state / 2), midY + 3, writeSpeed, true)
 sleep(0.5)
@@ -30,7 +30,6 @@ monitor.spinner(mon, midX, midY + 5, spinnerSpeed, bootTime)
 
 -- Show terminal
 mon.clear()
-monitor.movingText(mon, title, midX - (#title / 2), midY, midY, writeSpeed)
 monitor.text(mon, title, midX - (#title / 2), 1, writeSpeed, true)
 monitor.text(mon, ">", 0, monHeight, writeSpeed, true)
 sleep(0.5)
