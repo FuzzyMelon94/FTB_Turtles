@@ -1,4 +1,4 @@
--- v0.1.4
+-- v0.1.5
 local monitor = {}
 
 -- Prepares the monitor for use
@@ -51,15 +51,16 @@ function text(mon, s, x, y, speed, clear)
     local clear = clear or false
     local width, height = mon.getSize()
     local str = ""
+    local offset = 0
 
     for i = 0, #s do
         str = s:sub(i, i)
-        mon.setCursorPos(x + i, y)
+        mon.setCursorPos(x + i - offset, y)
         mon.write(str)
 
         if str == "\n" then
             y = y + 1
-            offset = offset + i
+            offset = i
         end
 
         sleep(speed)
@@ -75,7 +76,6 @@ end
 
 -- Text that moves up the screen
 function movingText(mon, s, x, y, distance, speed)
-    local y = y
     local isUp = distance > 0
     local width, height = mon.getSize()
 
