@@ -1,4 +1,4 @@
--- v1.0.8
+-- v1.0.9
 local github = {}
 -- GitHub QoL Variables
 local sUser = "username"
@@ -17,7 +17,7 @@ if #tArgs < 3 then
     return
 end
 
--- Get the file from GitHub
+-- Download from GitHub
 local function get(sUrl)
     local cacheBuster = tostring(math.random(1, 999999))
     print("Downloading [" .. sUrl .. "] from GitHub")
@@ -34,7 +34,6 @@ local function get(sUrl)
     end
 end
 
--- Download the requested file and save it
 local function download(sUrl, sFile)
     local sPath = shell.resolve(sFile)
 
@@ -53,6 +52,9 @@ local function download(sUrl, sFile)
         file.close()
 
         print("Downloaded as " .. sFile)
+        file = fs.open(sPath, "r")
+        print(file.readLine())
+        file.close()
     end
 end
 
