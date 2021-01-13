@@ -1,4 +1,4 @@
--- v0.1.5
+-- v0.1.6
 local monitor = {}
 
 -- Prepares the monitor for use
@@ -70,6 +70,40 @@ function text(mon, s, x, y, speed, clear)
         for i = x + #s + 1, width do
             mon.setCursorPos(i, y)
             mon.write(" ")
+        end
+    end
+end
+
+-- Display multiple lines at once
+function textAllLines(mon, str, x, y, speed, clear)
+    local x = x or 1
+    local y = y or 1
+    local speed = speed or 0
+    local clear = clear or false
+    local width, height = mon.getSize()
+    local lines = {}
+    local longest = 0
+    local char = ""
+
+    -- Split the string into lines and add to table
+    for s in str.gmatch("[^\r\n]+") do
+        table.insert(lines, s)
+    end
+
+    -- Calc longest line
+    for i = 1, #lines do
+        if #lines[i] > longest then
+            longest = #lines[i]
+        end
+    end
+
+    -- Print the lines at the same time
+    for i = 0, #longest do
+        for j = 0, #lines do
+            char = lines[j]:sub(i, i)
+            mon.setCursorPos(x + i, y + j)
+            mon.write(char)
+            sleep(speed)
         end
     end
 end
