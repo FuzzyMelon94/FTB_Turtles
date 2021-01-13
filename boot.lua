@@ -1,7 +1,9 @@
--- v0.1.13
+-- v0.1.14
 -- Load required files
-os.loadAPI("monitor")
+os.loadAPI("ascii")
+os.loadAPI("helpers")
 os.loadAPI("logo")
+os.loadAPI("monitor")
 
 -- Monitor settings
 local mon = peripheral.wrap("top")
@@ -29,7 +31,9 @@ monitor.spinner(mon, midX, midY + 5, spinnerSpeed, bootTime)
 
 -- Show terminal
 mon.clear()
-monitor.text(mon, title, midX - (#title / 2), 1, writeSpeed, true)
-monitor.text(mon, ">", 0, monHeight, writeSpeed, true)
-sleep(0.5)
-monitor.caret(mon, "_", 2, monHeight, cursorBlinkRate, 30)
+-- monitor.text(mon, title, midX - (#title / 2), 1, writeSpeed, true)
+-- monitor.text(mon, ">", 0, monHeight, writeSpeed, true)
+-- sleep(0.5)
+-- monitor.caret(mon, "_", 2, monHeight, cursorBlinkRate, 30)
+local windowStr = ascii.createWindow(monWidth, monHeight, title, {2, 11, 13})
+monitor.textAllLines(windowStr)
