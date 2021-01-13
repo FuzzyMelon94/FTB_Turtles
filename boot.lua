@@ -1,10 +1,11 @@
--- v0.1.12
+-- v0.1.13
 -- Load required files
 os.loadAPI("monitor")
 os.loadAPI("logo")
 
 -- Monitor settings
 local mon = peripheral.wrap("top")
+monitor.setup(mon)
 local monWidth, monHeight = mon.getSize()
 local midX = monWidth / 2
 local midY = monHeight / 2
@@ -18,11 +19,9 @@ local title = "=== Mini0n OS [v0.1.7] ==="
 local state = "Booting..."
 
 -- Main program
-monitor.setup(mon)
 sleep(2)
-
 -- Display boot sequence
-monitor.text(mon, logo.get(), midX - 22, midY - 5, writeSpeed / 5, true)
+monitor.textAllLines(mon, logo.get(), midX - 22, midY - 5, writeSpeed / 2, 0, true)
 sleep(0.5)
 monitor.text(mon, state, midX - (#state / 2), midY + 3, writeSpeed, true)
 sleep(0.5)
