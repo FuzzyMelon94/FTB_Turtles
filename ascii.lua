@@ -1,4 +1,4 @@
--- v0.1.0
+-- v0.1.1
 -- Generate a string of ascii
 function titleLine(width, text, fill, align, padding, padChar)
     local align = align or "c"
@@ -38,7 +38,7 @@ function titleLine(width, text, fill, align, padding, padChar)
         end
     else
         print("ASCII Line Generator - Invalid alignment: '" .. align .. "'")
-        return
+        return "Error"
     end
 
     -- Add the padding
@@ -46,6 +46,8 @@ function titleLine(width, text, fill, align, padding, padChar)
         strLeft = strLeft .. padChar
         strRight = padChar .. strRight
     end
+
+    return strLeft .. text .. strRight
 end
 
 -- Creates an edge border line
@@ -64,6 +66,8 @@ function borderedLine(width, char, thickness, fill)
             str = str .. fill
         end
     end
+
+    return str
 end
 
 -- Generate an entire window of ascii
@@ -86,10 +90,12 @@ function createWindow(width, height, title, separators, windowChars)
     for y = 0, height do
         if y == title.line then
             windowString = windowString .. titleLine(width, title.text, windowChars.fill) .. "\n"
-        elseif helpers.contains(separators, y) then
+        elseif helper.contains(separators, y) then
             windowString = windowString .. borderedLine(width, windowChars.side, 1, windowChars.sep) .. "\n"
         else
             windowString = windowString .. borderedLine(width, windowChars.side, 1, windowChars.fill) .. "\n"
         end
     end
+
+    return windowString
 end
