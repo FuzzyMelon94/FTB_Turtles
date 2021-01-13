@@ -1,4 +1,4 @@
--- v0.1.6
+-- v0.1.7
 local monitor = {}
 
 -- Prepares the monitor for use
@@ -75,10 +75,11 @@ function text(mon, s, x, y, speed, clear)
 end
 
 -- Display multiple lines at once
-function textAllLines(mon, str, x, y, speed, clear)
+function textAllLines(mon, str, x, y, speedX, speedY, clear)
     local x = x or 1
     local y = y or 1
-    local speed = speed or 0
+    local speedX = speedX or 0
+    local speedY = speedY or 0
     local clear = clear or false
     local width, height = mon.getSize()
     local lines = {}
@@ -86,7 +87,7 @@ function textAllLines(mon, str, x, y, speed, clear)
     local char = ""
 
     -- Split the string into lines and add to table
-    for s in str.gmatch("[^\r\n]+") do
+    for s in string.gmatch(str, "[^\r\n]+") do
         table.insert(lines, s)
     end
 
@@ -98,13 +99,14 @@ function textAllLines(mon, str, x, y, speed, clear)
     end
 
     -- Print the lines at the same time
-    for i = 0, #longest do
-        for j = 0, #lines do
+    for i = 0, longest do
+        for j = 1, #lines do
             char = lines[j]:sub(i, i)
             mon.setCursorPos(x + i, y + j)
             mon.write(char)
-            sleep(speed)
+            sleep(speedY)
         end
+        sleep(speedX)
     end
 end
 
